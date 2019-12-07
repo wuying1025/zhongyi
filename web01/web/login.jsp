@@ -11,7 +11,7 @@
     <title>登录</title>
   </head>
   <body>
-  <form action="/userServlet" method="post">
+  <form action="/userServlet?method=login" method="post">
     用户名：<input type="text" name="username">
     密码： <input type="password" name="pwd">
     <input type="submit">

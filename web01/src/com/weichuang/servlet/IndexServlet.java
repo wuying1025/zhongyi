@@ -32,8 +32,8 @@ public class IndexServlet extends HttpServlet{
             }
 //            req.getSession().setAttribute();
             req.setAttribute("users",users);
-//            resp.sendRedirect("/index.jsp");//
-            req.getRequestDispatcher("/index.jsp").forward(req,resp);
+//            resp.sendRedirect("/user_show.jsp");//
+            req.getRequestDispatcher("/user_show.jsp").forward(req,resp);
 //            sql注入 xss
         } catch (SQLException e) {
             e.printStackTrace();
