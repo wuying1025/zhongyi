@@ -1,5 +1,6 @@
 package com.weichuang.servlet;
 
+import com.weichuang.pojo.User;
 import com.weichuang.util.DBUtil;
 
 import javax.servlet.ServletException;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserServlet extends HttpServlet{
     //request   response
@@ -64,6 +67,36 @@ public class UserServlet extends HttpServlet{
             }
 //            sql注入 xss
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getUsers(HttpServletRequest req, HttpServletResponse resp){
+        Connection connection = DBUtil.getConnection();
+        List<User> users = new ArrayList<>();
+        try {
+            Statement st = connection.createStatement();
+            String sql = "select * from t_user";
+            PreparedStatement pst = connection.prepareStatement(sql);
+            ResultSet resultSet = pst.executeQuery();
+            while (resultSet.next()){
+                User u  = new User();
+                u.setName(resultSet.getString("name"));
+                u.setId(resultSet.getInt("id"));
+                u.setPassword(resultSet.getString("password"));
+                users.add(u);
+//                resp.sendRedirect("/success.jsp");
+            }
+//            req.getSession().setAttribute();
+            req.setAttribute("users",users);
+//            resp.sendRedirect("/user_show.jsp");//
+            req.getRequestDispatcher("/user_show.jsp").forward(req,resp);
+//            sql注入 xss
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
